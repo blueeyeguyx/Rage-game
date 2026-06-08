@@ -6,7 +6,7 @@ class Player223 (pygame.sprite.Sprite):
     def __init__(self,pos):
         super().__init__()
         self.image = pygame.Surface((TILE_SIZE, TILE_SIZE))
-        self.image = pygame.image.load('catmario1.png')
+        self.image = pygame.image.load('./assets/catmario1.png')
         self.rect = self.image.get_rect(midbottom = pos)
         self.direction = pygame.math.Vector2(0,0)
         self.speed = 4
@@ -17,10 +17,10 @@ class Player223 (pygame.sprite.Sprite):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_RIGHT]:
             self.direction.x = 1
-            self.image = pygame.image.load('catmario1.png')
+            self.image = pygame.image.load('./assets/catmario1.png')
         elif keys[pygame.K_LEFT]:
             self.direction.x = -1 
-            self.image = pygame.image.load('catmario2.png')
+            self.image = pygame.image.load('./assets/catmario3.png')
         else:
             self.direction.x = 0
         if keys[pygame.K_UP] and self.on_ground:

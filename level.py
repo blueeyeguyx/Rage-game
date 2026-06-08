@@ -1,14 +1,15 @@
 import pygame
 from tile import Tile
 from tile_b import Tile_b
-from settings import level_map, TILE_SIZE, WIDTH, HEIGHT
+from settings import TILE_SIZE, WIDTH
 from player_1 import Player223
 from winflag import wFlag
 from spikes import Spike
 from unvis_tile_a import unvis_Tile_a
+from collisionChecker import *
+from bluetile import BlueTile
+from unvis_tile_b import unvis_Tile_b
 
-win = 0
-lose = 0
 class Level():
     def __init__(self, level_data, surface):
         self.display_surface = surface
@@ -18,11 +19,12 @@ class Level():
         self.greentile = pygame.sprite.Group()
         self.spikes = pygame.sprite.Group()
         self.unvis_tiles_a = pygame.sprite.Group()
+        self.blueTiles = pygame.sprite.Group()
         self.world_shift = 0
         self.setup_level(level_data)
 
     def setup_level(self, layout):
-        for rowindex,row in enumerate(level_map):
+        for rowindex,row in enumerate(layout):
             for colindex,col in enumerate(row):
                 x = colindex * TILE_SIZE
                 y = rowindex * TILE_SIZE
@@ -44,142 +46,18 @@ class Level():
                 elif col == 'U':
                     unvis = unvis_Tile_a(TILE_SIZE,x,y)
                     self.unvis_tiles_a.add(unvis)
+                elif col == 'G':
+                    blueTile = BlueTile(TILE_SIZE, x,y)
+                    self.blueTiles.add(blueTile)
+                elif col == 'C':
+                    unvis_tile_b = unvis_Tile_b(TILE_SIZE, x, y)
+                    self.unvis_tiles_a.add(unvis_tile_b)
 
     def horizontal_movement_collision(self):
-        player = self.player.sprite
-        player.rect.x += player.direction.x * player.speed
-        
-        for sprite in self.tiles.sprites():
-            if sprite.rect.colliderect(player.rect):
-                if player.direction.x < 0:
-                    player.rect.left = sprite.rect.right    
-                if player.direction.x > 0:
-                    player.rect.right = sprite.rect.left
-        
-        for sprite in self.greentile.sprites():
-            if sprite.rect.colliderect(player.rect):
-                if player.direction.x < 0:
-                    player.rect.left = sprite.rect.right    
-                    sprite.kill()
-                if player.direction.x > 0:
-                    player.rect.right = sprite.rect.left
-                    sprite.kill()
+        horizontalMovementCollision(self)
 
-        for sprite in self.Wflag.sprites():
-            if sprite.rect.colliderect(player.rect):
-                if player.direction.x < 0:
-                    player.rect.left = sprite.rect.right    
-                    win = 1
-                    with open('win.txt','w') as wfile:
-                        wfile.write(str(win))
-                if player.direction.x > 0:
-                    player.rect.right = sprite.rect.left
-                    win = 1
-                    with open('win.txt','w') as wfile:
-                        wfile.write(str(win))
-
-        for sprite in self.spikes.sprites():
-            if sprite.rect.colliderect(player.rect):
-                if player.direction.x < 0:
-                    player.rect.left = sprite.rect.right
-                    sprite.image = pygame.image.load('spikes.png')    
-                    lose = 1
-                    with open('dead.txt','w') as wfile:
-                        wfile.write(str(lose))
-                if player.direction.x > 0:
-                    player.rect.right = sprite.rect.left
-                    sprite.image = pygame.image.load('spikes.png')    
-                    lose = 1
-                    with open('dead.txt','w') as wfile:
-                        wfile.write(str(lose))
-        
-        for sprite in self.unvis_tiles_a.sprites():
-            if sprite.rect.colliderect(player.rect):
-                if player.direction.x < 0:
-                    player.rect.left = sprite.rect.right    
-                    sprite.image = pygame.image.load('tile.png')
-                if player.direction.x > 0:
-                    player.rect.right = sprite.rect.left
-                    sprite.image = pygame.image.load('tile.png')
-        
     def vertical_movement_collision(self):
-        player = self.player.sprite
-        player.apply_gravity()
-
-        if player.rect.centery > HEIGHT:
-            lose = 1
-            with open('dead.txt','w') as file:
-                file.write(str(lose))
-
-        for sprite in self.tiles.sprites():
-            if sprite.rect.colliderect(player.rect):
-                if player.direction.y > 0: 
-                    player.rect.bottom = sprite.rect.top
-                    player.direction.y = 0 
-                    player.on_ground = True
-                elif player.direction.y < 0:
-                    player.rect.top = sprite.rect.bottom
-                    player.direction.y = 0 
-
-        
-        for sprite in self.greentile.sprites():
-            if sprite.rect.colliderect(player.rect):
-                # if player.direction.y > 0: 
-                #     player.rect.bottom = sprite.rect.top
-                #     player.direction.y = 0 
-                #     player.on_ground = True
-                # elif player.direction.y < 0:
-                #     player.rect.top = sprite.rect.bottom
-                #     player.direction.y = 0 
-                sprite.kill()
-       
-        for sprite in self.unvis_tiles_a.sprites():
-            if sprite.rect.colliderect(player.rect):
-                if player.direction.y > 0: 
-                    player.rect.bottom = sprite.rect.top
-                    player.direction.y = 0 
-                    player.on_ground = True
-                    sprite.image = pygame.image.load('tile.png')
-                elif player.direction.y < 0:
-                    player.rect.top = sprite.rect.bottom
-                    player.direction.y = 0
-                    sprite.image = pygame.image.load('tile.png')
-
-        for sprite in self.Wflag.sprites():
-            if sprite.rect.colliderect(player.rect):
-                if player.direction.y > 0: 
-                    player.rect.bottom = sprite.rect.top
-                    player.direction.y = 0 
-                    player.on_ground = True
-                    win = 1
-                    with open('win.txt','w') as wfile:
-                        wfile.write(str(win))
-                elif player.direction.y < 0:
-                    player.rect.top = sprite.rect.bottom
-                    player.direction.y = 0 
-                    win = 1
-                    
-                    with open('win.txt','w') as wfile:
-                        wfile.write(str(win))
-        
-        for sprite in self.spikes.sprites():
-            if sprite.rect.colliderect(player.rect):
-                if player.direction.y > 0: 
-                    player.rect.bottom = sprite.rect.top
-                    player.direction.y = 0 
-                    player.on_ground = True
-                    sprite.image = pygame.image.load('spikes.png')    
-                    lose = 1
-                    with open('dead.txt','w') as wfile:
-                        wfile.write(str(lose))
-                elif player.direction.y < 0:
-                    player.rect.top = sprite.rect.bottom
-                    player.direction.y = 0
-                    sprite.image = pygame.image.load('spikes.png')    
-                    lose = 1
-                    
-                    with open('dead.txt','w') as wfile:
-                        wfile.write(str(lose))
+        verticalMovementCollision(self)
     
 
     def scroll(self):

@@ -1,0 +1,4 @@
+Game state:
+0 - Start
+1 - Playing
+2 - Ended - Won or Lost

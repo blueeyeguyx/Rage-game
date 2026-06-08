@@ -6,6 +6,8 @@ class unvis_Tile_a(pygame.sprite.Sprite):
         super().__init__()
         self.image = pygame.Surface((TILE_SIZE,TILE_SIZE))
         self.image.fill('lightblue')
-        self.rect = self.image.get_rect(topleft = (x,y+10))
+        self.rect = self.image.get_rect(topleft = (x,y))
+        self.active = False
+
     def update(self, shift):
         self.rect.x += shift
