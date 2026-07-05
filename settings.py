@@ -14,7 +14,7 @@ level_map1 = [
 '                                                                                                    ',
 '                                            U                 X              U                     T',
 '                                                             XX                                    M',
-'       SSSSSS   P     W                                     XXX                                   SW',
+'       SSSSSS   P                                           XXX                                   SW',
 'BBBBBBBXXXXXXXXXXXXXXXX    XXXXXXXBBBBBXXXXXX       XXXXXXXXXXX        XXXXXXX       C      XXXXXXXX'
 ]
 
