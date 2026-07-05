@@ -1,4 +1,4 @@
-Ez egy játék amit Pythonban fejlesztettem középiskolai szakdolgozatként. A játék egy 2D-s rage game, ami a Cat Mariora hasonlít.
+Ez egy játék amit Pythonban fejlesztettem középiskolai szakdolgozatként. A játék egy 2D-s rage game, ami a Syobon Action-re (Közismert nevén Cat Mariora)  hasonlít.
 A játék célja az, hogy kijátsszuk a pályákat. A pálya végén lévő zászlót kell megérinteni,
 ám az oda vezető utunkat különféle akadályok nehezítik. 
 
