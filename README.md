@@ -3,7 +3,7 @@ A játék célja az, hogy kijátsszuk a pályákat. A pálya végén lévő zás
 ám az oda vezető utunkat különféle akadályok nehezítik. 
 
 Futtatás:
-1. Töltsük le a Pythont.
+1. Töltsük le a Pythont a https://www.python.org/ weboldalról.
 2. Nyissunk egy CLI-t (Terminal, PowerShell, Cmd stb)
 3. Navigáljunk el a projekt mappájába oda, ahol a main.py fájl található (vagy akár direkt ide is nyithatjuk a CLI-t)
 4. Töltsük le a pygame-et a "pip install pygame" paranccsal ("-k nélkül a CLI-be írjuk bele)
